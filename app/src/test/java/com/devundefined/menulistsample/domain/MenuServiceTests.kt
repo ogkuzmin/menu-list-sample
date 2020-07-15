@@ -1,7 +1,10 @@
 package com.devundefined.menulistsample.domain
 
+import com.devundefined.menulistsample.domain.models.Menu
 import com.devundefined.menulistsample.infrastructure.Try
+import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
+import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -31,5 +34,16 @@ class MenuServiceTests {
         val result = sut.getMenu()
 
         assertTrue(result is Try.Failure)
+    }
+
+    @Test
+    fun whenGetMenu_ifLoadingServiceReturnedSuccessWithMenu_shouldReturnSuccessWithSameMenu() {
+        val menu = Menu(mapOf())
+        whenever(menuLoadingService.loadMenu()).thenReturn(Try.Success(menu))
+
+        val result = sut.getMenu()
+
+        assertTrue(result is Try.Success)
+        assertEquals(menu, (result as Try.Success).value)
     }
 }
