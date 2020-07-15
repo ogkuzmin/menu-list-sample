@@ -23,4 +23,11 @@ sealed class Try<T> {
         is Success -> transformAction(value)
         is Failure -> Failure(error)
     }
+
+    fun onSuccess(successSideEffect: (T) -> Unit): Try<T> {
+        if (this is Success) {
+            successSideEffect(value)
+        }
+        return this
+    }
 }

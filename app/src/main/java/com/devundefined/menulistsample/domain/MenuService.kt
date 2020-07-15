@@ -13,5 +13,6 @@ class MenuServiceImpl(
 ) : MenuService {
     override fun getMenu(): Try<Menu> {
         return menuLoadingService.loadMenu()
+            .onSuccess(menuRepository::saveMenu)
     }
 }

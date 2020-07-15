@@ -2,7 +2,9 @@ package com.devundefined.menulistsample.domain
 
 import com.devundefined.menulistsample.domain.models.Menu
 import com.devundefined.menulistsample.infrastructure.Try
+import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
@@ -45,5 +47,15 @@ class MenuServiceTests {
 
         assertTrue(result is Try.Success)
         assertEquals(menu, (result as Try.Success).value)
+    }
+
+    @Test
+    fun whenGetMenu_ifLoadingServiceReturnedSuccessWithMenu_shouldSaveMenuToRepo() {
+        val menu = Menu(mapOf())
+        whenever(menuLoadingService.loadMenu()).thenReturn(Try.Success(menu))
+
+        sut.getMenu()
+
+        verify(menuRepository).saveMenu(eq(menu))
     }
 }
