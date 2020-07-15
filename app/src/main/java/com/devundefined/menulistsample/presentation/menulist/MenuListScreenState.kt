@@ -1,6 +1,6 @@
 package com.devundefined.menulistsample.presentation.menulist
 
-import com.devundefined.menulistsample.domain.Menu
+import com.devundefined.menulistsample.domain.models.Menu
 
 sealed class MenuListScreenState
 

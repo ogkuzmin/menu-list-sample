@@ -1,4 +1,4 @@
-package com.devundefined.menulistsample.domain
+package com.devundefined.menulistsample.domain.models
 
 import java.math.BigDecimal
 import java.util.*

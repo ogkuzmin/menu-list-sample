@@ -2,7 +2,7 @@ package com.devundefined.menulistsample.presentation.menulist
 
 import androidx.fragment.app.Fragment
 import com.devundefined.menulistsample.R
-import com.devundefined.menulistsample.domain.Menu
+import com.devundefined.menulistsample.domain.models.Menu
 
 class MenuListFragment : Fragment(R.layout.fragment_menu_list) {
 
