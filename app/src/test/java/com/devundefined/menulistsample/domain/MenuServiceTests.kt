@@ -2,10 +2,7 @@ package com.devundefined.menulistsample.domain
 
 import com.devundefined.menulistsample.domain.models.Menu
 import com.devundefined.menulistsample.infrastructure.Try
-import com.nhaarman.mockitokotlin2.eq
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import org.junit.Before
@@ -57,5 +54,14 @@ class MenuServiceTests {
         sut.getMenu()
 
         verify(menuRepository).saveMenu(eq(menu))
+    }
+
+    @Test
+    fun whenGetMenu_ifLoadingServiceReturnedFailure_shouldNeverSaveMenuToRepo() {
+        whenever(menuLoadingService.loadMenu()).thenReturn(Try.Failure(IllegalArgumentException("Test")))
+
+        sut.getMenu()
+
+        verify(menuRepository, never()).saveMenu(any())
     }
 }
