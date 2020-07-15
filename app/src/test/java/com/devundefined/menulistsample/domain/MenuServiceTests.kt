@@ -1,6 +1,7 @@
 package com.devundefined.menulistsample.domain
 
 import com.devundefined.menulistsample.domain.models.Menu
+import com.devundefined.menulistsample.infrastructure.CacheValidator
 import com.devundefined.menulistsample.infrastructure.Try
 import com.nhaarman.mockitokotlin2.*
 import junit.framework.TestCase.assertEquals
@@ -19,11 +20,14 @@ class MenuServiceTests {
     @Mock
     lateinit var menuRepository: MenuRepository
 
+    @Mock
+    lateinit var cacheValidator: CacheValidator
+
     lateinit var sut: MenuService
 
     @Before
     fun before() {
-        sut = MenuServiceImpl(menuLoadingService, menuRepository)
+        sut = MenuServiceImpl(menuLoadingService, menuRepository, cacheValidator)
     }
 
     @Test
@@ -63,5 +67,18 @@ class MenuServiceTests {
         sut.getMenu()
 
         verify(menuRepository, never()).saveMenu(any())
+    }
+
+    @Test
+    fun whenGetMenu_ifCacheIsValid_shouldGetMenuFromRepository_andNeverLoadMenuToLoadingService() {
+        val cachedMenu = Menu(mapOf())
+        whenever(menuRepository.findMenu()).thenReturn(cachedMenu)
+        whenever(cacheValidator.isValid(any(), any())).thenReturn(true)
+
+        val result = sut.getMenu()
+
+        assertTrue(result is Try.Success)
+        assertEquals(cachedMenu, (result as Try.Success).value)
+        verify(menuLoadingService, never()).loadMenu()
     }
 }
