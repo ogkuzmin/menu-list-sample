@@ -12,6 +12,6 @@ class MenuServiceImpl(
     private val menuRepository: MenuRepository
 ) : MenuService {
     override fun getMenu(): Try<Menu> {
-        TODO("Not yet implemented")
+        return menuLoadingService.loadMenu()
     }
 }
