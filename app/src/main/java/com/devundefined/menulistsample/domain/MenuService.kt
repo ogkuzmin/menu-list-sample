@@ -22,7 +22,7 @@ class MenuServiceImpl(
 
     override fun getMenu(): Try<Menu> {
         return if (cacheValidator.isValid(CACHE_KEY, CACHE_TIME_INTERVAL)) {
-            Try { menuRepository.findMenu() }
+            Try { menuRepository.getMenu() }
         } else {
             menuLoadingService.loadMenu()
                 .onSuccess(menuRepository::saveMenu)
