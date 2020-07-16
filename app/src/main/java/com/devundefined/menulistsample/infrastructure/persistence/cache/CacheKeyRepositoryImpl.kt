@@ -5,11 +5,18 @@ import com.devundefined.menulistsample.infrastructure.cache.CacheKeyRepository
 
 class CacheKeyRepositoryImpl(private val dao: CacheKeyDao) : CacheKeyRepository {
 
-    override fun findByCacheKey(cacheKey: String): CacheKeyEntry? {
-        TODO("Not yet implemented")
+    private val toModel: (CacheKeyEntryEntity) -> CacheKeyEntry = { entity ->
+        CacheKeyEntry(entity.cacheKey, entity.timeStamp)
     }
 
+    private val toEntity: (CacheKeyEntry) -> CacheKeyEntryEntity = { model ->
+        CacheKeyEntryEntity(model.cacheKey, model.cacheTimeStamp)
+    }
+
+    override fun findByCacheKey(cacheKey: String): CacheKeyEntry? = dao.findByCacheKey(cacheKey)?.let(toModel)
+
     override fun save(cacheKeyEntry: CacheKeyEntry) {
-        TODO("Not yet implemented")
+        dao.removeByCacheKey(cacheKeyEntry.cacheKey)
+        dao.insert(cacheKeyEntry.let(toEntity))
     }
 }
