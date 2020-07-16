@@ -1,7 +1,7 @@
 package com.devundefined.menulistsample.domain
 
 import com.devundefined.menulistsample.domain.models.Menu
-import com.devundefined.menulistsample.infrastructure.CacheValidator
+import com.devundefined.menulistsample.infrastructure.cache.CacheValidator
 import com.devundefined.menulistsample.infrastructure.Try
 import java.util.concurrent.TimeUnit
 
