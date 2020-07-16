@@ -1,8 +1,8 @@
 package com.devundefined.menulistsample.infrastructure.cache
 
-class CacheValidatorImpl : CacheValidator {
+class CacheValidatorImpl(private val cacheKeyRepository: CacheKeyRepository) : CacheValidator {
     override fun isValid(cacheKey: String, cacheValidTimeInterval: Long): Boolean {
-        TODO("Not yet implemented")
+        return cacheKeyRepository.findByCacheKey(cacheKey) != null
     }
 
     override fun invalidateCache(cacheKey: String) {
