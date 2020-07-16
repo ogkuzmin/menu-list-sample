@@ -26,6 +26,7 @@ class MenuServiceImpl(
         } else {
             menuLoadingService.loadMenu()
                 .onSuccess(menuRepository::saveMenu)
+                .onSuccess { cacheValidator.invalidateCache(CACHE_KEY) }
         }
     }
 }

@@ -81,4 +81,15 @@ class MenuServiceTests {
         assertEquals(cachedMenu, (result as Try.Success).value)
         verify(menuLoadingService, never()).loadMenu()
     }
+
+    @Test
+    fun whenGetMenu_ifCacheIsNotValid_andLoadingServiceReturnedSuccessWithMenu_shouldInvalidateCache() {
+        val menu = Menu(mapOf())
+        whenever(cacheValidator.isValid(any(), any())).thenReturn(false)
+        whenever(menuLoadingService.loadMenu()).thenReturn(Try.Success(menu))
+
+        sut.getMenu()
+
+        verify(cacheValidator).invalidateCache(any())
+    }
 }
