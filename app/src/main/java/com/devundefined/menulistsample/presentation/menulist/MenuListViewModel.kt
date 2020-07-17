@@ -19,23 +19,33 @@ class MenuListViewModel(private val menuService: MenuService) : ViewModel() {
     private val mutableStateFlow =
         MutableStateFlow<MenuListScreenState>(MenuListScreenState.Loading)
 
-    val intentChannel = Channel<MenuListIntents.Reload>(Channel.Factory.UNLIMITED)
+    val intentChannel = Channel<MenuListIntent>(Channel.Factory.UNLIMITED)
     val stateFlow: StateFlow<MenuListScreenState>
         get() = mutableStateFlow
 
     init {
-        viewModelScope.launch { handleIntents() }
-    }
-
-    private suspend fun handleIntents() {
-        intentChannel.consumeAsFlow().collect {
-            withContext(Dispatchers.IO) {
-                loadMenu()
-            }
+        viewModelScope.launch {
+            handleIntents()
         }
     }
 
-    private suspend fun loadMenu() {
+    private suspend fun handleIntents() {
+        intentChannel.consumeAsFlow().collect(::handleIntent)
+    }
+
+    private suspend fun handleIntent(intent: MenuListIntent) {
+        when (intent) {
+            MenuListIntent.Attach -> {
+                if (stateFlow.value !is MenuListScreenState.MenuLoaded) {
+                    loadMenu()
+                }
+            }
+            MenuListIntent.Reload -> loadMenu()
+        }
+
+    }
+
+    private suspend fun loadMenu() = withContext(Dispatchers.IO) {
         mutableStateFlow.value = MenuListScreenState.Loading
         when (val result = menuService.getMenu()) {
             is Try.Success -> mutableStateFlow.value = MenuListScreenState.MenuLoaded(result.value)

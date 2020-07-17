@@ -48,6 +48,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_v"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_v"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_v"
+    implementation  "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_v"
     implementation "com.google.dagger:dagger:$dagger_v"
     kapt "com.google.dagger:dagger-compiler:$dagger_v"
 

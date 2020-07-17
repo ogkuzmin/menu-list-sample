@@ -9,6 +9,7 @@ import com.devundefined.menulistsample.infrastructure.persistence.menu.MenuRepos
 import com.devundefined.menulistsample.infrastructure.persistence.menu.ProductDao
 import com.devundefined.menulistsample.infrastructure.persistence.menu.ProductEntity
 import com.nhaarman.mockitokotlin2.argThat
+import com.nhaarman.mockitokotlin2.inOrder
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.TestCase.assertTrue
@@ -46,6 +47,7 @@ class MenuRepositoryTests {
         val secondCategory = Category("category2")
         val productEntityFirst = ProductEntity(
             "id1",
+            "externalId1",
             "product1",
             firstCategory.name,
             "imageUrl1",
@@ -55,6 +57,7 @@ class MenuRepositoryTests {
         )
         val productEntitySecond = ProductEntity(
             "id2",
+            "externalId2",
             "product2",
             secondCategory.name,
             "imageUrl2",
@@ -74,7 +77,7 @@ class MenuRepositoryTests {
     }
 
     @Test
-    fun whenSaveMenu_ifMenuWithOneProduct_shouldSaveProductListToRepo_withSizeOne() {
+    fun whenSaveMenu_ifMenuWithOneProduct_shouldFirstlyCleareDatabase_andThenSaveProductListToRepo_withSizeOne() {
         val category = Category("some")
         val price = Money(BigDecimal(1000), Currency.getInstance("EUR"))
         val product =
@@ -83,14 +86,17 @@ class MenuRepositoryTests {
 
         sut.saveMenu(menu)
 
-        verify(dao).saveAll(argThat {
-            size == 1 &&
-                    first().run {
-                        id == product.id &&
-                                name == product.name &&
-                                priceCurrencyCode == price.currency.currencyCode &&
-                                imageUrl == product.imageUrl
-                    }
-        })
+        inOrder(dao) {
+            verify(dao).clear()
+            verify(dao).saveAll(argThat {
+                size == 1 &&
+                        first().run {
+                            id == product.id &&
+                                    name == product.name &&
+                                    priceCurrencyCode == price.currency.currencyCode &&
+                                    imageUrl == product.imageUrl
+                        }
+            })
+        }
     }
 }

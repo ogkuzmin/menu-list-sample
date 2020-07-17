@@ -22,6 +22,7 @@ class MenuRepositoryImpl(private val dao: ProductDao) : MenuRepository {
     private val productToEntity: (Product) -> ProductEntity = { product ->
         with(product) {
             ProductEntity(
+                getUniqueId(),
                 id,
                 name,
                 category.name,
@@ -33,10 +34,12 @@ class MenuRepositoryImpl(private val dao: ProductDao) : MenuRepository {
         }
     }
 
+    private fun Product.getUniqueId() = "$id${category.name}"
+
     private val productEntityToModel: (ProductEntity) -> Product = { entity ->
         with(entity) {
             Product(
-                id,
+                externalId,
                 name,
                 Category(categoryName),
                 imageUrl,
@@ -52,6 +55,7 @@ class MenuRepositoryImpl(private val dao: ProductDao) : MenuRepository {
         .let(::Menu)
 
     override fun saveMenu(menu: Menu) {
+        dao.clear()
         dao.saveAll(
             menu.entries
                 .flatMap { entry -> entry.value }
