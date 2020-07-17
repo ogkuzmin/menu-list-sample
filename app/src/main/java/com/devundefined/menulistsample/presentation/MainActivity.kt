@@ -1,7 +1,8 @@
-package com.devundefined.menulistsample
+package com.devundefined.menulistsample.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.devundefined.menulistsample.R
 import com.devundefined.menulistsample.presentation.menulist.MenuListFragment
 
 class MainActivity : AppCompatActivity() {

@@ -14,7 +14,6 @@ class MenuServiceImpl(
     private val menuRepository: MenuRepository,
     private val cacheValidator: CacheValidator
 ) : MenuService {
-
     companion object {
         private const val CACHE_KEY = "MENU_CACHE_KEY"
         private val CACHE_TIME_INTERVAL = TimeUnit.MINUTES.toMillis(10)
