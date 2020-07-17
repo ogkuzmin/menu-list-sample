@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Menu list sample</string>
+
+    <string name="loading_error_desc">Error occurred while loading.\nPlease, check your network connection and try again.</string>
+    <string name="retry_button_title">Reload</string>
 </resources>
