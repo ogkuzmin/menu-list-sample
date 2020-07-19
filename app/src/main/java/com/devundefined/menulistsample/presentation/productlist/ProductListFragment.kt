@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.devundefined.menulistsample.R
 import com.devundefined.menulistsample.databinding.FragmentProductListBinding
 import com.devundefined.menulistsample.domain.models.Product
+import com.devundefined.menulistsample.presentation.navigation.RouterHolder
 
 class ProductListFragment : Fragment(R.layout.fragment_product_list) {
 
@@ -43,6 +44,6 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
     }
 
     private fun showProductScreen(product: Product) {
-
+        RouterHolder.INSTANCE?.router?.showProductScreen(product)
     }
 }
