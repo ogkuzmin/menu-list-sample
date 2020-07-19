@@ -9,6 +9,7 @@ import com.devundefined.menulistsample.MenuListSampleApp
 import com.devundefined.menulistsample.R
 import com.devundefined.menulistsample.databinding.FragmentMenuListBinding
 import com.devundefined.menulistsample.domain.models.Menu
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -59,6 +60,10 @@ class MenuListFragment : Fragment(R.layout.fragment_menu_list) {
         binding.content.visibility = View.VISIBLE
         binding.progress.visibility = View.GONE
         binding.errorContent.visibility = View.GONE
+        binding.pager.adapter = MenuListAdapter(menu, this)
+        TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
+            tab.text = menu.keys.elementAt(position).name
+        }.attach()
     }
 
     private fun showLoading() {
