@@ -1,5 +1,9 @@
 package com.devundefined.menulistsample.domain.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Product(
     val id: String,
     val name: String,
@@ -7,4 +11,4 @@ data class Product(
     val imageUrl: String,
     val description: String,
     val price: Money
-)
+) : Parcelable

@@ -10,6 +10,7 @@ class MenuListAdapter(val menu: Menu, fragment: Fragment) : FragmentStateAdapter
     override fun getItemCount() = menu.size
 
     override fun createFragment(position: Int): Fragment {
-        return ProductListFragment.newInstance(menu.keys.elementAt(position))
+        val category = menu.keys.elementAt(position)
+        return ProductListFragment.newInstance(menu[category]?.toTypedArray()?: emptyArray())
     }
 }
