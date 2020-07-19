@@ -3,7 +3,9 @@ package com.devundefined.menulistsample.presentation.productlist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.devundefined.menulistsample.R
 import com.devundefined.menulistsample.databinding.MenuItemBinding
 import com.devundefined.menulistsample.domain.models.Product
@@ -37,6 +39,16 @@ object Binder {
                 NumberFormat.getCurrencyInstance().apply { currency = price.currency }
                     .format(price.amount)
             }
+            showImage(image, product.imageUrl)
+        }
+    }
+
+    private fun showImage(imageView: ImageView, url: String) {
+        if (url.isNotEmpty()) {
+            Glide.with(imageView)
+                .load(url)
+                .placeholder(R.drawable.menu_item_placeholder)
+                .into(imageView)
         }
     }
 }
