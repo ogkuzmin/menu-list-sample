@@ -21,10 +21,22 @@ class RouterImpl(activity: MainActivity) : Router {
         showFragment { ProductCardFragment.newInstance(product) }
     }
 
-    private fun showFragment(fragmentProvider: () -> Fragment) {
-        activityRef.get()?.let { mainActivity ->
-            mainActivity.supportFragmentManager.beginTransaction()
-                .add(R.id.container, fragmentProvider()).commit()
+    override fun back() {
+        runInActivity {
+            if (supportFragmentManager.fragments.any { it is ProductCardFragment }) {
+                supportFragmentManager.popBackStack()
+            }
         }
+    }
+
+    private fun showFragment(fragmentProvider: () -> Fragment) {
+        runInActivity {
+            supportFragmentManager.beginTransaction().add(R.id.container, fragmentProvider())
+                .addToBackStack(null).commit()
+        }
+    }
+
+    private fun runInActivity(action: MainActivity.() -> Unit) {
+        activityRef.get()?.run(action)
     }
 }
