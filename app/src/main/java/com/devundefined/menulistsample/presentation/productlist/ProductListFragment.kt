@@ -38,8 +38,11 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
             }
             adapter = ProductAdapter(
                 arguments?.getParcelableArray(EXTRA_KEY_PRODUCT_LIST) as? Array<Product>
-                    ?: emptyArray()
-            )
+                    ?: emptyArray(), ::showProductScreen)
         }
+    }
+
+    private fun showProductScreen(product: Product) {
+
     }
 }
