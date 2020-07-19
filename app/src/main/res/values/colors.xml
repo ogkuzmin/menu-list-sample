@@ -4,5 +4,7 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="greyBackground">#F3F3F7</color>
-    <color name="secondaryText">#5C6370</color>
+    <color name="secondaryText">@color/darkGrey</color>
+
+    <color name="darkGrey">#5C6370</color>
 </resources>

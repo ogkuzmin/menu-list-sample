@@ -39,16 +39,21 @@ class ProductCardFragment : Fragment(R.layout.fragment_product_card) {
                 title.text = product.name
                 subtitle.text = product.description
                 showImage(image, product.imageUrl)
+                closeIcon.setOnClickListener { back() }
             }
         }
         view.setOnKeyListener { _, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                RouterHolder.INSTANCE?.router?.back()
+                back()
                 true
             } else {
                 false
             }
         }
+    }
+
+    private fun back() {
+        RouterHolder.INSTANCE?.router?.back()
     }
 
     private fun showImage(imageView: ImageView, url: String) {
@@ -85,7 +90,6 @@ class ProductCardFragment : Fragment(R.layout.fragment_product_card) {
                     }
                 })
                 .into(imageView)
-
         }
     }
 }
